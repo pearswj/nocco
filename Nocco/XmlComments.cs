@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Linq;
+using System.Text.RegularExpressions;
 
 namespace Nocco
 {
@@ -12,7 +13,8 @@ namespace Nocco
         public XmlComments(string input)
         {
             this.Input = input;
-            var clean = "<wrapper>" + this.Input.Replace("///", "") + "</wrapper>";
+            var clean = "<wrapper>\n" + Regex.Replace(this.Input, "[\\t ]*///\\s*", "") + "\n</wrapper>";
+            System.Console.WriteLine(clean);
             this.Xml = XDocument.Parse(clean);
         }
 
@@ -23,6 +25,12 @@ namespace Nocco
         }
 
         public XDocument Xml
+        {
+            get;
+            private set;
+        }
+
+        public string Markdown
         {
             get;
             private set;

@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using Nocco;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -29,9 +30,15 @@ namespace NoccoTests
 
             var ret = "The index of one of the newly created halfedges, or -1 on failure. The returned halfedge will be adjacent to the pre-existing face.";
 
-            foreach (var item in SUT.Xml.Descendants("returns"))
+            var ret_act = SUT.Xml.Descendants("returns").FirstOrDefault().Value;
+
+            System.Console.WriteLine(ret_act);
+
+            var parameters = SUT.Xml.Descendants("param").Select(item => new { Name = item.Attribute("name").Value, Description = item.Value });
+
+            foreach (var p in parameters)
             {
-                System.Console.WriteLine(item);
+                System.Console.WriteLine(p.Name + ": " + p.Description);
             }
         }
     }
